@@ -5,9 +5,7 @@ import {
   decrement,
   increment,
   incrementByAmount,
-  incrementAsync,
-  selectCount,
-} from "./counterSlice";
+} from "../redux/slices/counterSlice";
 
 export default function Menu() {
   //

@@ -28,14 +28,9 @@ export default function Login() {
 
   function setTestData(role) {
     if (role === "super-admin") {
-
-    }
-    else if (role === "admin") {
-
+    } else if (role === "admin") {
     } else if (role === "manager") {
-
     } else if (role === "salesman") {
-
     }
     setUsername("email@gmail.com");
     setPassword("123456");
@@ -51,7 +46,7 @@ export default function Login() {
   }
 
   return (
-    <div className="container mx-auto h-full flex sm:flex-row flex-col justify-around items-center ">
+    <div className="container   sm:mx-auto mx-2 h-full flex sm:flex-row flex-col justify-around items-center ">
       <form
         onSubmit={handleSubmit}
         className="md:w-1/2 w-full sm:mx-0 mx-6 flex flex-col gap-6 pt-2 pb-8 px-2 sm:px-4  rounded-md shadow-sm drop-shadow-md"
@@ -95,7 +90,9 @@ export default function Login() {
         </div>
       </form>
       <div className=" flex flex-col justify-center gap-4">
-        <span className="bg-slate-300 text-sm rounded-md px-1 ">Test Accounts:</span>
+        <span className="bg-slate-300 text-sm rounded-md px-1 ">
+          Test Accounts:
+        </span>
         <Button
           onClick={() => setTestData("super-admin")}
           txt="super-admin"
@@ -105,7 +102,8 @@ export default function Login() {
           onClick={() => setTestData("admin")}
           txt="admin"
           style=" btn_test_data "
-        ></Button><Button
+        ></Button>
+        <Button
           onClick={() => setTestData("manager")}
           txt="manager/accountant"
           style=" btn_test_data "

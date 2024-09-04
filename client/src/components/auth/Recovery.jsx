@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import Label from "../../common-ui/Label";
+import Input from "../../common-ui/Input";
+import Button from "../../common-ui/Button";
 
 export default function Recovery() {
-
   const [recoveryEmail, setRecoveryEmail] = useState("");
-  
+
   const handleSubmit = () => {
     e.preventDefault();
     postHandler("/auth/account-recovery", { email, password })

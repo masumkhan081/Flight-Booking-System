@@ -1,8 +1,8 @@
 import React from "react";
 import Button from "../../common-ui/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentView } from "../../../drugs/drugs-info-frontend/src/redux/slices/StaffView";
-import { tblOptionsStaffPage } from "../../../drugs/drugs-info-frontend/src/static-data/table";
+import { setCurrentView } from "../../redux/slices/StaffView";
+import { tblOptionsStaffPage } from "../../static-data/table";
 import { useNavigate } from "react-router-dom";
 
 export default function ViewFilterStaff() {

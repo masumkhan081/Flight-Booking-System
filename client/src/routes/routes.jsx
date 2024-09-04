@@ -27,7 +27,7 @@ import SalaryTbl from "../components/tabularViews/SalaryTbl.jsx";
 import Dashboard from "../pages/Dashboard.jsx";
 import SalePanel from "../pages/SalePanel.jsx";
 import SignUp from "../components/auth/SignUp.jsx";
-// 
+//
 export const routes = createBrowserRouter([
   {
     path: "/",
@@ -36,81 +36,15 @@ export const routes = createBrowserRouter([
       {
         path: "",
         element: <Landing />,
-        children: [
-          {
-            path: "dashboard",
-            element: <ProtectedRoute pass={true}> <Dashboard /></ProtectedRoute>,
-          },
-          {
-            path: "sale-panel",
-            element: <SalePanel />,
-          },
-          {
-            path: "drugs/",
-            element: <Drugs />,
-            children: [
-              {
-                path: "stock",
-                element: <DrugTbl />,
-              },
-              {
-                path: "brands",
-                element: <BrandTbl />,
-              },
-              {
-                path: "formulations",
-                element: <FormulationTbl />,
-              },
-              {
-                path: "groups",
-                element: <GroupTbl />,
-              },
-              {
-                path: "generics",
-                element: <GenericTbl />,
-              },
-              {
-                path: "units",
-                element: <UnitTbl />,
-              },
-              {
-                path: "manufacturers",
-                element: <MFRTbl />,
-              },
-            ],
-          },
-          {
-            path: "sales",
-            element: <SaleRecords />,
-          },
-          {
-            path: "purchases",
-            element: <Purchases />,
-          },
-          {
-            path: "staff/",
-            element: <Staff />,
-            children: [
-              {
-                path: "members",
-                element: <StaffTbl />,
-              },
-              {
-                path: "salaries",
-                element: <SalaryTbl />,
-              },
-              {
-                path: "attendance",
-                element: <AttendanceTbl />,
-              },
-            ],
-          },
-        ],
       },
       {
         path: "auth/",
         element: <Auth />,
         children: [
+          {
+            path: "profile",
+            element: <Profile />,
+          },
           {
             path: "login",
             element: <Login />,
@@ -135,6 +69,21 @@ export const routes = createBrowserRouter([
       },
       {
         path: "about",
+        element: <About />,
+      },
+      {
+        path: "Privacy Policy",
+
+        element: <About />,
+      },
+      {
+        path: "Terms of Service",
+
+        element: <About />,
+      },
+      {
+        path: "Contact Us",
+
         element: <About />,
       },
     ],

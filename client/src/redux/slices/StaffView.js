@@ -1,10 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit"; 
+import { createSlice } from "@reduxjs/toolkit";
 
 export const staffViewSlice = createSlice({
   name: "staffView",
   initialState: {
     currentView: "",
-    expanded:"hidden",
+    expanded: "hidden",
     allChecked: false,
     salaries: [],
     members: [],
@@ -31,7 +31,6 @@ export const staffViewSlice = createSlice({
     },
   },
 });
-
 // Action creators are generated for each case reducer function
 export const { setCurrentView, checkSingle, checkAll, deletHandler } =
   staffViewSlice.actions;

@@ -12,7 +12,7 @@ import {
 
 export default function About() {
   return (
-    <div className="md:px-2.0 px-1.0 grid grid-cols-3 gap-4">
+    <div className="md:px-2.0 px-1.0 grid grid-cols-3 gap-4 py-6">
       <div className=" col-span-1 flex flex-col gap-4 justify-start items-start md:px-4 px-2">
         <Title
           txt="Whats Been Used"
