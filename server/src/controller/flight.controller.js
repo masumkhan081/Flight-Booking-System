@@ -1,5 +1,6 @@
-const accessLevelService = require("../../services/auth/accessLevel.service");
+const flightService = require("../services/flight.service");
 const httpStatus = require("http-status");
+const { success_msg } = require("../utils/responseHandler");
 
 const {
   sendCreateResponse,
@@ -7,22 +8,20 @@ const {
   sendErrorResponse,
   sendFetchResponse,
   sendUpdateResponse,
-} = require("../../utils/responseHandler");
-const { operableEntities } = require("../../config/constants");
-//
+} = require("../utils/responseHandler");
+const { operableEntities } = require("../config/constants");
 
-async function createAccessLevel(req, res) {
-  const result = await accessLevelService.createAccessLevel(req.body);
+async function createFlight(req, res) {
+  const result = await flightService.createFlight(req.body);
   if (result instanceof Error) {
     sendErrorResponse({ res, error: result, what: operableEntities.address });
   } else {
     sendFetchResponse({ res, data: result, what: operableEntities.address });
   }
 }
-async function getAccessLevels(req, res) {
-  // pagination check & logic
+async function getFlights(req, res) {
+  const result = await flightService.getFlights(req.query);
 
-  const result = await accessLevelService.getAccessLevels(req.query);
   if (result instanceof Error) {
     sendErrorResponse({ res, error: result, what: operableEntities.address });
   } else {
@@ -30,8 +29,8 @@ async function getAccessLevels(req, res) {
   }
 }
 //
-async function updateAccessLevel(req, res) {
-  const result = await accessLevelService.updateAccessLevel({
+async function updateFlight(req, res) {
+  const result = await flightService.updateFlight({
     id: req.params.id,
     data: req.body,
   });
@@ -42,8 +41,8 @@ async function updateAccessLevel(req, res) {
   }
 }
 //
-async function deleteAccessLevel(req, res) {
-  const result = await accessLevelService.deleteAccessLevel(req.params.id);
+async function deleteFlight(req, res) {
+  const result = await flightService.deleteFlight(req.params.id);
   if (result instanceof Error) {
     sendErrorResponse({ res, error: result, what: operableEntities.address });
   } else {
@@ -52,8 +51,8 @@ async function deleteAccessLevel(req, res) {
 }
 //
 module.exports = {
-  createAccessLevel,
-  updateAccessLevel,
-  deleteAccessLevel,
-  getAccessLevels,
+  createFlight,
+  updateFlight,
+  deleteFlight,
+  getFlights,
 };

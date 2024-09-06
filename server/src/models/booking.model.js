@@ -1,31 +1,26 @@
+/* eslint-disable no-unused-vars */
 const { Schema, model } = require("mongoose");
 const mongoose = require("mongoose");
 
-const purchaseSchema = new Schema(
+const bookingSchema = new Schema(
   {
-    title: {
+    fullName: {
       type: String,
       required: true,
-      unique: true,
     },
-    ref_id: {
+    phone: {
+      type: String,
+      required: true,
+    },
+    mobile: {
+      type: String,
+      required: true,
+    },
+    address: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "refname",
+      ref: "addresses",
       required: true,
     },
-    introduction: {
-      type: String,
-      required: true,
-    },
-    quote: {
-      type: String,
-      required: true,
-    },
-    conclusion: {
-      type: String,
-      required: true,
-    },
-    keywords: [String],
   },
   {
     timestamps: true,
@@ -34,6 +29,6 @@ const purchaseSchema = new Schema(
   }
 );
 
-const Purchase = model("purchases", purchaseSchema);
+const Booking = model("bookings", bookingSchema);
 
-module.exports = Purchase;
+module.exports = Booking;

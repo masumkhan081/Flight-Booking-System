@@ -1,4 +1,4 @@
-const User = require("../../models/auth/user.model");
+const User = require("../../models/user.model");
 /* eslint-disable no-unused-vars */
 const { getSearchAndPagination } = require("../../utils/pagination");
 const config = require("../../config/index");

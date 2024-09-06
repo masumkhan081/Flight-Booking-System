@@ -32,19 +32,6 @@ router.delete("/:id", authController.deleteUser);
 //  Authorization routes
 
 // -------------------------------------------------------------------------
-
-//  social login routes
-
-router.use(
-  "/facebook",
-  require("../../controller/strategies/facebook.route.js")
-);
-router.use("/google", require("../../controller/strategies/google.route.js"));
-
-router.use(
-  "/linkedin",
-  require("../../controller/strategies/linkedin.route.js")
-);
-router.use("/github", require("../../controller/strategies/github.route.js"));
-
+ 
+ 
 module.exports = router;

@@ -1,7 +1,7 @@
 const authService = require("../../services/auth/auth.service");
 const httpStatus = require("http-status");
-const config = require("../../config");
-const userModel = require("../../models/auth/user.model");
+const config = require("../../config/index");
+const userModel = require("../../models/user.model");
 const {
   sendCreateResponse,
   sendDeletionResponse,

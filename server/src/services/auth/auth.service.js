@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const userModel = require("../../models/auth/user.model");
+const userModel = require("../../models/user.model");
 const bcrypt = require("bcrypt");
 const mailService = require("../../utils/mail");
 const config = require("../../config");

@@ -1,19 +1,18 @@
-const Supplier = require("../models/supplier.model");
 /* eslint-disable no-unused-vars */
+const { operableEntities } = require("../config/constants");
+const Booking = require("../models/booking.model");
 const { getSearchAndPagination } = require("../utils/pagination");
 
-const { operableEntities } = require("../config/constants");
-
-async function createSupplier(data) {
+async function createBooking(data) {
   try {
-    const addResult = await Supplier.create(data);
+    const addResult = await Booking.createBooking(data);
     return addResult;
   } catch (error) {
     return error;
   }
 }
 //
-async function getSuppliers(query) {
+async function getBookings(query) {
   try {
     const {
       currentPage,
@@ -23,14 +22,14 @@ async function getSuppliers(query) {
       sortOrder,
       filterConditions,
       sortConditions,
-    } = getSearchAndPagination({ query, what: operableEntities.supplier });
+    } = getSearchAndPagination({ query, what: operableEntities.address });
 
-    const fetchResult = await Supplier.find(filterConditions)
+    const fetchResult = await Booking.find(filterConditions)
       .sort(sortConditions)
-      .skip(viewSkip)
+      .skip("v")
       .limit(viewLimit);
 
-    const total = await Supplier.countDocuments(filterConditions);
+    const total = await Booking.countDocuments(filterConditions);
     return {
       meta: {
         total,
@@ -47,9 +46,9 @@ async function getSuppliers(query) {
   }
 }
 //
-async function updateSupplier({ id, data }) {
+async function updateBooking({ id, data }) {
   try {
-    const editResult = await Supplier.findByIdAndUpdate(id, data, {
+    const editResult = await Booking.findByIdAndUpdate(id, data, {
       new: true,
     });
     return editResult;
@@ -58,9 +57,9 @@ async function updateSupplier({ id, data }) {
   }
 }
 //
-async function deleteSupplier(id) {
+async function deleteBooking(id) {
   try {
-    const deleteResult = await Supplier.findByIdAndDelete(id);
+    const deleteResult = await Booking.findByIdAndDelete(id);
     return deleteResult;
   } catch (error) {
     return error;
@@ -68,8 +67,8 @@ async function deleteSupplier(id) {
 }
 
 module.exports = {
-  createSupplier,
-  updateSupplier,
-  deleteSupplier,
-  getSuppliers,
+  createBooking,
+  updateBooking,
+  deleteBooking,
+  getBookings,
 };

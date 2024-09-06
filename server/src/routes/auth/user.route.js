@@ -1,10 +1,11 @@
 const { Router } = require("express");
 const router = Router();
-const userController = require("../../controller/auth/user.controller.js");
-const accessControl = require("../../middlewares/verifyToken.js");
+const userController = require("../../controller/auth/user.controller");
+const validateRequest = require("../../middlewares/validateRequest");
+const addressSchema = require("../../validation/address.validate");
+//
 
-// when super-admin creates user account for a salesman
-router.post("/", accessControl("admin"), userController.createUser);
+router.post("/", validateRequest(addressSchema), userController.createUser);
 router.get("/", userController.getUsers);
 router.patch("/:id", userController.updateUser);
 router.delete("/:id", userController.deleteUser);

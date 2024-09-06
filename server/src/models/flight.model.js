@@ -2,25 +2,23 @@
 const { Schema, model } = require("mongoose");
 const mongoose = require("mongoose");
 
-const addressSchema = new Schema(
+const flightSchema = new Schema(
   {
-    district: {
+    fullName: {
       type: String,
       required: true,
     },
-    sub_district: {
+    phone: {
       type: String,
       required: true,
     },
-    village: {
-      type: String,
-    },
-    street: {
+    mobile: {
       type: String,
       required: true,
     },
-    building: {
-      type: String,
+    address: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "addresses",
       required: true,
     },
   },
@@ -31,6 +29,6 @@ const addressSchema = new Schema(
   }
 );
 
-const Address = model("addresses", addressSchema);
+const Flight = model("flights", flightSchema);
 
-module.exports = Address;
+module.exports = Flight;

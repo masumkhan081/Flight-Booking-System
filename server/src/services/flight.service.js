@@ -1,19 +1,19 @@
-const OrderDelivery = require("../models/delivery.model");
 /* eslint-disable no-unused-vars */
+const { operableEntities } = require("../config/constants");
+const Flight = require("../models/flight.model");
 const { getSearchAndPagination } = require("../utils/pagination");
 
-const { operableEntities } = require("../config/constants");
 
-async function createOrderDelivery(data) {
+async function createFlight(data) {
   try {
-    const addResult = await OrderDelivery.create(data);
+    const addResult = await Address.create(data);
     return addResult;
   } catch (error) {
     return error;
   }
 }
 //
-async function getOrderDeliveries(query) {
+async function getFlights(query) {
   try {
     const {
       currentPage,
@@ -23,14 +23,14 @@ async function getOrderDeliveries(query) {
       sortOrder,
       filterConditions,
       sortConditions,
-    } = getSearchAndPagination({ query, what: operableEntities.delivery });
+    } = getSearchAndPagination({ query, what: operableEntities.address });
 
-    const fetchResult = await OrderDelivery.find(filterConditions)
+    const fetchResult = await Address.find(filterConditions)
       .sort(sortConditions)
-      .skip(viewSkip)
+      .skip("v")
       .limit(viewLimit);
 
-    const total = await OrderDelivery.countDocuments(filterConditions);
+    const total = await Address.countDocuments(filterConditions);
     return {
       meta: {
         total,
@@ -47,9 +47,9 @@ async function getOrderDeliveries(query) {
   }
 }
 //
-async function updateOrderDelivery({ id, data }) {
+async function updateFlight({ id, data }) {
   try {
-    const editResult = await OrderDelivery.findByIdAndUpdate(id, data, {
+    const editResult = await Address.findByIdAndUpdate(id, data, {
       new: true,
     });
     return editResult;
@@ -58,9 +58,9 @@ async function updateOrderDelivery({ id, data }) {
   }
 }
 //
-async function deleteOrderDelivery(id) {
+async function deleteFlight(id) {
   try {
-    const deleteResult = await OrderDelivery.findByIdAndDelete(id);
+    const deleteResult = await Address.findByIdAndDelete(id);
     return deleteResult;
   } catch (error) {
     return error;
@@ -68,8 +68,8 @@ async function deleteOrderDelivery(id) {
 }
 
 module.exports = {
-  createOrderDelivery,
-  updateOrderDelivery,
-  deleteOrderDelivery,
-  getOrderDeliveries,
+  createFlight,
+  updateFlight,
+  deleteFlight,
+  getFlights,
 };
