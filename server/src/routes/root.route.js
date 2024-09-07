@@ -29,11 +29,11 @@ const routes = [
     route: userRoutes,
   },
   {
-    path: "/booking",
+    path: "/flight-booking",
     route: bookingROute,
   },
   {
-    path: "/flight",
+    path: "/flights",
     route: flightRoute,
   },
 ];

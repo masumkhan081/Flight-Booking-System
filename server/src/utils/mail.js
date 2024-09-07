@@ -8,6 +8,7 @@ const config = require("../config");
 const sendOTPMail = ({ user, res, successMessage }) => {
   //
   const generatedOTP = generateOTP();
+  // console.log("generatedOTP:  " + JSON.stringify(user));
   //
   const mailOptions = getMailOptions({
     to: user.email,
@@ -86,14 +87,14 @@ function getResetLink(user) {
 // return a relatable email sibject based on purpose of the mail
 const setSubject = (action) =>
   action === "recovery"
-    ? "Auth-Full: Recover Your Password"
+    ? `${config.app_name}: Recover Your Password`
     : action === "verification"
-    ? "Auth-Full: Verify Your Email"
+    ? `${config.app_name}: Verify Your Email`
     : "";
 
 const getMailOptions = ({ to, subject, html }) => {
   return {
-    from: config.SENDER,
+    from: config.host_email,
     to,
     subject: subject(),
     html: html(),
@@ -107,7 +108,7 @@ const getTransporter = () =>
     secure: true,
     auth: {
       user: config.host_email,
-      pass: config.PASS,
+      pass: config.host_email_pw,
     },
     tls: {
       rejectUnAuthorized: true,

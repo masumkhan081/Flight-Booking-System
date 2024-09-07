@@ -14,11 +14,12 @@ const { operableEntities } = require("../config/constants");
 async function createFlight(req, res) {
   const result = await flightService.createFlight(req.body);
   if (result instanceof Error) {
-    sendErrorResponse({ res, error: result, what: operableEntities.address });
+    sendErrorResponse({ res, error: result, what: operableEntities.flight });
   } else {
-    sendFetchResponse({ res, data: result, what: operableEntities.address });
+    sendCreateResponse({ res, data: result, what: operableEntities.flight });
   }
 }
+//
 async function getFlights(req, res) {
   const result = await flightService.getFlights(req.query);
 
@@ -37,7 +38,7 @@ async function updateFlight(req, res) {
   if (result instanceof Error) {
     sendErrorResponse({ res, error: result, what: operableEntities.address });
   } else {
-    sendFetchResponse({ res, data: result, what: operableEntities.address });
+    sendUpdateResponse({ res, data: result, what: operableEntities.address });
   }
 }
 //
@@ -46,7 +47,7 @@ async function deleteFlight(req, res) {
   if (result instanceof Error) {
     sendErrorResponse({ res, error: result, what: operableEntities.address });
   } else {
-    sendFetchResponse({ res, data: result, what: operableEntities.address });
+    sendDeletionResponse({ res, data: result, what: operableEntities.address });
   }
 }
 //

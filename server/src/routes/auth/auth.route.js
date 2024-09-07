@@ -1,17 +1,29 @@
 const { Router } = require("express");
 const router = Router();
 const authController = require("../../controller/auth/auth.controller.js");
+const validateRequest = require("../../middlewares/validateRequest.js");
+const {
+  loginSchmea,
+  registerSchema,
+  emailVerSchema,
+  otpVerSchema,
+} = require("../../validation/user.validate.js");
 
-//
-router.get("/", (req, res) => {
-  res.send(
-    "wel well well well well well well well well well well well well well well well well well"
-  );
-});
+router.post(
+  "/register",
+  validateRequest(registerSchema),
+  authController.registerUser
+);
 
-router.post("/", authController.createUser);
+router.post(
+  "/verify-email",
+  validateRequest(otpVerSchema),
+  authController.validateEmail
+);
 
-router.post("/login", authController.login);
+router.post("/login",   authController.login);
+
+router.post("/email-verification", authController.sendOTPToEmail);
 
 router.get("/logout", authController.logout);
 
@@ -21,17 +33,4 @@ router.get("/recovery/:token", authController.resetPw);
 
 router.post("/reset-password", authController.updatePw);
 
-router.post("/email-verification", authController.sendOTPToEmail);
-
-router.post("/verify-email", authController.validateEmail);
-
-router.patch(":id", authController.updateUser);
-
-router.delete("/:id", authController.deleteUser);
-
-//  Authorization routes
-
-// -------------------------------------------------------------------------
- 
- 
 module.exports = router;

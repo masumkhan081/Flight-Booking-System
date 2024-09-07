@@ -1,5 +1,7 @@
 const { Schema, model } = require("mongoose");
 
+const ROLES = ["ADMIN", "USER"];
+
 const userSchema = new Schema(
   {
     email: {
@@ -7,13 +9,17 @@ const userSchema = new Schema(
       required: true,
       unique: true,
     },
-    userName: { type: String, required: true, unique: true },
-    phone: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, required: true },
-    profilePicture: { type: String },
-    isVerified: { type: Boolean, default: true },
-    isActive: { type: Boolean, default: true },
+    fullName: { type: String, required: true },
+    phone: { type: String, required: true, unique: true },
+    role: {
+      type: String,
+      enum: ROLES,
+      default: ROLES[1],
+      required: true,
+    },
+    isVerified: { type: Boolean, default: false },
+    isActive: { type: Boolean, default: false },
   },
   {
     timestamps: true,

@@ -32,10 +32,13 @@
   @apply flex justify-between btn_auth_toggler  w-2/3 mx-auto pt-1 pb-0 shadow-md;
 }
 .neutral_title {
-  @apply flex justify-center text-lg text-orange-800 font-titan w-2/3 mx-auto pt-1 pb-0 drop-shadow-md font-semibold;
+  @apply flex  justify-center text-lg text-orange-800 font-titan w-2/3 mx-auto pt-1 pb-0 drop-shadow-md font-semibold;
 }
-.txt_inp_form {
-  @apply flex justify-between border border-br/300 font-averia outline-none rounded-md px-4 py-1;
+.txt_complete {
+  @apply  w-full bg-transparent border border-br/300 font-averia outline-none rounded-md px-4 py-1;
+}
+.txt_with_child {
+  @apply flex justify-between bg-transparent font-averia outline-none rounded-md px-4 py-1;
 }
 .lbl_form {
   @apply font-medium font-averia;

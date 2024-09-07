@@ -6,8 +6,8 @@ export const saleSlice = createSlice({
     username: "",
     email: "",
     id: "",
-    role: "salesman",
-    authenticated: true,
+    role: "user",
+    authenticated: false,
   },
   reducers: {
     setUser: (state, action) => {

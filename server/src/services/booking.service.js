@@ -1,13 +1,15 @@
 /* eslint-disable no-unused-vars */
 const { operableEntities } = require("../config/constants");
-const Booking = require("../models/booking.model");
+const FlightBooking = require("../models/booking.model");
 const { getSearchAndPagination } = require("../utils/pagination");
 
 async function createBooking(data) {
   try {
-    const addResult = await Booking.createBooking(data);
+    console.log("data :::  "+JSON.stringify(data));
+    const addResult = await FlightBooking.create(data);
     return addResult;
   } catch (error) {
+    console.log(JSON.stringify(error));
     return error;
   }
 }
@@ -22,14 +24,14 @@ async function getBookings(query) {
       sortOrder,
       filterConditions,
       sortConditions,
-    } = getSearchAndPagination({ query, what: operableEntities.address });
+    } = getSearchAndPagination({ query, what: operableEntities.booking });
 
-    const fetchResult = await Booking.find(filterConditions)
+    const fetchResult = await FlightBooking.find(filterConditions)
       .sort(sortConditions)
       .skip("v")
       .limit(viewLimit);
 
-    const total = await Booking.countDocuments(filterConditions);
+    const total = await FlightBooking.countDocuments(filterConditions);
     return {
       meta: {
         total,
@@ -48,7 +50,7 @@ async function getBookings(query) {
 //
 async function updateBooking({ id, data }) {
   try {
-    const editResult = await Booking.findByIdAndUpdate(id, data, {
+    const editResult = await FlightBooking.findByIdAndUpdate(id, data, {
       new: true,
     });
     return editResult;
@@ -59,7 +61,7 @@ async function updateBooking({ id, data }) {
 //
 async function deleteBooking(id) {
   try {
-    const deleteResult = await Booking.findByIdAndDelete(id);
+    const deleteResult = await FlightBooking.findByIdAndDelete(id);
     return deleteResult;
   } catch (error) {
     return error;

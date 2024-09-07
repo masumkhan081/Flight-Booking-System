@@ -1,9 +1,10 @@
 import React from "react";
 
-export default function Input({ type, pc, style,value, onChange}) {
-  const styLogic = () => (type === "text" ? "txt_inp_form" : "txt_inp_form");
+export default function Input({ type, id, pc, style, value, onChange }) {
+  const styLogic = () => (style ? "txt_with_child" : "txt_complete");
   return (
     <input
+      id={id}
       type={type || "text"}
       className={`${styLogic()} ${style}`}
       placeholder={pc}

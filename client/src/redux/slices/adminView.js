@@ -1,31 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const drugsViewSlice = createSlice({
-  name: "drugsView",
+export const adminViewSlice = createSlice({
+  name: "adminView",
   initialState: {
-    currentView: "stock",
+    currentView: "flights",
     isModalVisible: false,
     isModalForEdit: false,
+    
     modalData: {},
     expanded: "hidden",
     allChecked: false,
-    stock: [],
-    brands: [],
-    generics: [],
-    groups: [],
-    formulations: [],
-    units: [],
-    manufacturers: [],
+    flights: [],
+    bookings: [],
+    
   },
   reducers: {
-
     setCurrentView: (state, action) => {
       const { view, data } = action.payload;
+
+
+alert(view+ "  <> "+data)
+
+
       console.log("view:   ?  ?      " + view);
       state.currentView = view;
       state[`${view}`] = data;
       state.expanded = state.expanded === "hidden" ? "block" : "block";
-    },
+   },
+   
     checkSingle: (state, action) => {
       console.log(action.payload);
       state = { ...state, currentView: action.payload };
@@ -82,6 +84,6 @@ export const drugsViewSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setCurrentView, checkSingle, checkAll, initModal, setModaldata, closeModal, setBrands, setStock, setFormulations, setUnits, setManufacturers, setGroups, setGenerics } = drugsViewSlice.actions;
+export const { setCurrentView, checkSingle, checkAll, initModal, setModaldata, closeModal, setBrands, setStock, setFormulations, setUnits, setManufacturers, setGroups, setGenerics } = adminViewSlice.actions;
 
-export default drugsViewSlice.reducer;
+export default adminViewSlice.reducer;

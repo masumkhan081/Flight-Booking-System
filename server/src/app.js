@@ -9,7 +9,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
-const allowedOrigins = ["http://localhost:3001"];
+const allowedOrigins = ["http://localhost:3001","http://localhost:5173"];
 app.use(
   cors({
     origin: function (origin, callback) {

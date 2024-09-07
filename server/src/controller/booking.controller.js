@@ -12,11 +12,11 @@ const {
 const { operableEntities } = require("../config/constants");
 
 async function createBooking(req, res) {
-  const result = await bookingService.createBooking();
+  const result = await bookingService.createBooking(req.body);
   if (result instanceof Error) {
-    sendErrorResponse({ res, error: result, what: operableEntities.address });
+    sendErrorResponse({ res, error: result, what: operableEntities.booking });
   } else {
-    sendFetchResponse({ res, data: result, what: operableEntities.address });
+    sendCreateResponse({ res, data: result, what: operableEntities.booking });
   }
 }
 async function getBookings(req, res) {
@@ -24,9 +24,9 @@ async function getBookings(req, res) {
 
   const result = await bookingService.getBookings();
   if (result instanceof Error) {
-    sendErrorResponse({ res, error: result, what: operableEntities.address });
+    sendErrorResponse({ res, error: result, what: operableEntities.booking });
   } else {
-    sendFetchResponse({ res, data: result, what: operableEntities.address });
+    sendFetchResponse({ res, data: result, what: operableEntities.booking });
   }
 }
 //
@@ -36,18 +36,18 @@ async function updateBooking(req, res) {
     data: req.body,
   });
   if (result instanceof Error) {
-    sendErrorResponse({ res, error: result, what: operableEntities.address });
+    sendErrorResponse({ res, error: result, what: operableEntities.booking });
   } else {
-    sendFetchResponse({ res, data: result, what: operableEntities.address });
+    sendFetchResponse({ res, data: result, what: operableEntities.booking });
   }
 }
 //
 async function deleteBooking(req, res) {
   const result = await bookingService.deleteBooking(req.params.id);
   if (result instanceof Error) {
-    sendErrorResponse({ res, error: result, what: operableEntities.address });
+    sendErrorResponse({ res, error: result, what: operableEntities.booking });
   } else {
-    sendFetchResponse({ res, data: result, what: operableEntities.address });
+    sendFetchResponse({ res, data: result, what: operableEntities.booking });
   }
 }
 //

@@ -1,6 +1,16 @@
 const httpStatus = require("http-status");
 //
 //
+
+function sendAuthResponse({ res, data, msg }) {
+  res.send({
+    statusCode: data === null ? httpStatus[404] : 200,
+    success: data === null ? false : true,
+    message: data === null ? err_msg.id_not_found : msg,
+    data,
+  });
+}
+
 function sendFetchResponse({ res, data, what }) {
   res.send({
     statusCode: data === null ? httpStatus[404] : 200,
@@ -70,6 +80,10 @@ const success_msg = {
   delete: (what) => `${what} deleted successfully`,
   update: (what) => `${what} updated successfully`,
   fetch: (what) => `${what} fetched successfully`,
+  register: "Registered successfully",
+  login: "Logged in successfully",
+  reset_mail_link: (mail) => `A password reset link has been sent to ${mail}`,
+  email_ver_otp: (mail) => `An OTP has been sent to ${mail} for verification`,
 };
 
 const err_msg = {
@@ -93,6 +107,7 @@ const err_custom = {
 };
 
 module.exports = {
+  sendAuthResponse,
   sendFetchResponse,
   sendCreateResponse,
   sendDeletionResponse,

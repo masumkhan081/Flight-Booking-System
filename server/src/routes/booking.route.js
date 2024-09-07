@@ -2,12 +2,12 @@ const { Router } = require("express");
 const router = Router();
 const bookingController = require("../controller/booking.controller");
 const validateRequest = require("../middlewares/validateRequest");
-const addressSchema = require("../validation/address.validate");
+const flightBookingSchema = require("../validation/booking.validate");
 //
 
 router.post(
   "/",
-  validateRequest(addressSchema),
+  validateRequest(flightBookingSchema),
   bookingController.createBooking
 );
 router.get("/", bookingController.getBookings);

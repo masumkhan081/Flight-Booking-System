@@ -92,7 +92,7 @@ export default function Signup() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="  lg:w-2/5 md:w-1/2 sm:w-2/3 w-full sm:mx-auto mx-2 flex flex-col justify-center shadow-md rounded-md border-2 gap-4 py-4 px-1.5"
+      className="  lg:w-2/5 md:w-1/2 sm:w-2/3 w-full sm:mx-auto mx-2 flex flex-col justify-center bg-slate-100 rounded-md border-2 gap-4 py-4 px-1.5"
     >
       <div className="flex flex-col">
         <p className="flex justify-between">
@@ -154,7 +154,6 @@ export default function Signup() {
             required={true}
             type="text"
             pc="Enter your phone number"
-            style="flex-grow"
             value={phone}
             onChange={setterPhone}
           />
@@ -168,28 +167,30 @@ export default function Signup() {
             {errors.password}
           </span>
         </p>
-        <div className="flex gap-1 justify-between">
-          {/* <Input type="text" pc="" style="flex-grow" /> */}
+        <div className="flex gap-1 justify-between border border-br/300 rounded-md">
           <Input
             id="password"
             type="password"
             title="Must contain at least 6 or more characters"
             required={true}
             pc="Set a password"
-            style=" flex-grow"
+            style=" flex-grow "
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
           />
-          <button onClick={(e) => passVisibility(e, "password")}>
+          <button
+            onClick={(e) => passVisibility(e, "password")}
+            className="ps-1 rounded-r-md border border-l-slate-400"
+          >
             <img src={eye} className="icn_sm" />
           </button>
         </div>
       </div>
       <div className="flex flex-col gap-1">
         <Label txt="Confirm Password" />
-        <div className="flex gap-1 justify-between">
+        <div className="flex gap-1 justify-between border border-br/300 rounded-md">
           <Input
             id="confirmpassword"
             type="password"
@@ -202,7 +203,10 @@ export default function Signup() {
               setConfirmPassword(e.target.value);
             }}
           />
-          <button onClick={(e) => passVisibility(e, "confirmpassword")}>
+          <button
+            onClick={(e) => passVisibility(e, "confirmpassword")}
+            className="ps-1 rounded-r-md border border-l-slate-400"
+          >
             <img src={eye} className="icn_sm" />
           </button>
         </div>

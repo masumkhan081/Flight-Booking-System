@@ -1,34 +1,50 @@
-/* eslint-disable no-unused-vars */
-const { Schema, model } = require("mongoose");
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const bookingSchema = new Schema(
+const flightBookingSchema = new Schema(
   {
-    fullName: {
+    flight: {
+      type: Schema.Types.ObjectId,
+      ref: "flights",
+      required: true,
+    },
+    passengerName: {
       type: String,
       required: true,
     },
-    phone: {
+    passengerEmail: {
+      type: String,
+      required: true,
+      match: [/.+@.+\..+/, "Invalid email format"],
+    },
+    passengerPhone: {
       type: String,
       required: true,
     },
-    mobile: {
+    seatNumber: {
       type: String,
       required: true,
     },
-    address: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "addresses",
+    bookingDate: {
+      type: String,
+      default: Date.now.toString(),
+    },
+    status: {
+      type: String,
+      enum: ["confirmed", "pending", "canceled"],
+      default: "pending",
+    },
+    totalPrice: {
+      type: Number,
       required: true,
     },
   },
   {
     timestamps: true,
     versionKey: false,
-    toJSON: { virtuals: true },
   }
 );
 
-const Booking = model("bookings", bookingSchema);
+const FlightBooking = mongoose.model("FlightBooking", flightBookingSchema);
 
-module.exports = Booking;
+module.exports = FlightBooking;

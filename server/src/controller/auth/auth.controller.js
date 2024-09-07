@@ -8,44 +8,30 @@ const {
   sendErrorResponse,
   sendFetchResponse,
   sendUpdateResponse,
+  sendAuthResponse,
+  success_msg,
 } = require("../../utils/responseHandler");
 const { operableEntities } = require("../../config/constants");
 
-async function createUser(req, res) {
-  const { username, email, password, phone } = req.body;
+async function registerUser(req, res) {
+  const { fullName, email, password, phone } = req.body;
+  await authService.register({
+    res,
+    fullName,
+    email,
+    password,
+    phone,
+  });
+}
 
-  const existence = await userModel.findOne({ username }).exec();
-
-  if (existence) {
-    res.send({
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Username is already in use.",
-      data: null,
-    });
-  }
-  //   more validation to be added here or in mongoose schema
-  else {
-    const result = await authService.createUser({
-      res,
-      username,
-      email,
-      password,
-      phone,
-    });
-    res.send({
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "User Created successfully",
-      data: result,
-    });
-  }
+async function validateEmail(req, res) {
+  const { email, otp, token } = req.body;
+   await authService.validateEmail({ res, userEmail: email, userOtp: otp, token });
 }
 
 async function login(req, res) {
-  // destructering the expected
-  const { username, password } = req.body;
-  authService.login({ res, username, password });
+  const { email, password } = req.body;
+  await authService.login({ res, email, password });
 }
 
 async function logout(req, res) {
@@ -54,15 +40,10 @@ async function logout(req, res) {
 }
 
 async function sendResetMail(req, res) {
-  // destructuring the expected
-  const { email } = req.body;
-  const result = await authService.sendResetMail(email);
-
-  if (result instanceof Error) {
-    sendErrorResponse({ res, error: result, what: operableEntities.address });
-  } else {
-    sendFetchResponse({ res, data: result, what: operableEntities.address });
-  }
+  const result = await authService.sendResetMail({
+    res,
+    email: req.body.email,
+  });
 }
 
 async function resetPw(req, res) {
@@ -76,78 +57,19 @@ async function resetPw(req, res) {
 }
 
 async function updatePw(req, res) {
-  const result = await authService.updatePw(req.body);
-  if (result instanceof Error) {
-    sendErrorResponse({ res, error: result, what: operableEntities.address });
-  } else {
-    sendFetchResponse({ res, data: result, what: operableEntities.address });
-  }
+  await authService.updatePw(req.body);
 }
 async function sendOTPToEmail(req, res) {
   const { email } = req.body;
 
-  const result = await authService.sendOTPToEmail(email);
-  if (result instanceof Error) {
-    sendErrorResponse({ res, error: result, what: operableEntities.address });
-  } else {
-    sendFetchResponse({ res, data: result, what: operableEntities.address });
-  }
-}
-async function validateEmail(req, res) {
-  const { email, otp, token } = req.body;
-  const result = await authService.validateEmail({ email, otp, token });
-
-  if (result instanceof Error) {
-    sendErrorResponse({ res, error: result, what: operableEntities.address });
-  } else {
-    sendFetchResponse({ res, data: result, what: operableEntities.address });
-  }
+  await authService.sendOTPToEmail(email);
 }
 
-async function getUsers(req, res) {
-  // pagination check & logic
-  const { currentPage, searchTerm, viewLimit, viewSkip } = req.query;
 
-  const result = await authService.getProducts({
-    currentPage,
-    searchTerm,
-    viewLimit,
-    viewSkip,
-  });
 
-  if (result instanceof Error) {
-    sendErrorResponse({ res, error: result, what: operableEntities.address });
-  } else {
-    sendFetchResponse({ res, data: result, what: operableEntities.address });
-  }
-}
-//
-async function updateUser(req, res) {
-  const result = await authService.updateUser({
-    id: req.params.id,
-    data: req.body,
-  });
-  if (result instanceof Error) {
-    sendErrorResponse({ res, error: result, what: operableEntities.address });
-  } else {
-    sendFetchResponse({ res, data: result, what: operableEntities.address });
-  }
-}
-//
-async function deleteUser(req, res) {
-  const result = await authService.deleteUser(req.params.id);
-  if (result instanceof Error) {
-    sendErrorResponse({ res, error: result, what: operableEntities.address });
-  } else {
-    sendFetchResponse({ res, data: result, what: operableEntities.address });
-  }
-}
 //
 module.exports = {
-  createUser,
-  updateUser,
-  deleteUser,
-  getUsers,
+  registerUser,
   login,
   logout,
   resetPw,

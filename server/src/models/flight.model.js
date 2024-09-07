@@ -1,34 +1,56 @@
-/* eslint-disable no-unused-vars */
-const { Schema, model } = require("mongoose");
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const flightSchema = new Schema(
   {
-    fullName: {
+    flightNumber: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    airline: {
       type: String,
       required: true,
     },
-    phone: {
+    departureAirport: {
       type: String,
       required: true,
     },
-    mobile: {
+    arrivalAirport: {
       type: String,
       required: true,
     },
-    address: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "addresses",
+    departureTime: {
+      type: Date,
+      required: true,
+    },
+    arrivalTime: {
+      type: Date,
+      required: true,
+    },
+    duration: {
+      type: Number, // Duration in minutes
+      required: true,
+    },
+    aircraft: {
+      type: String,
+      required: true,
+    },
+    availableSeats: {
+      type: Number,
+      required: true,
+    },
+    price: {
+      type: Number,
       required: true,
     },
   },
   {
     timestamps: true,
     versionKey: false,
-    toJSON: { virtuals: true },
   }
 );
 
-const Flight = model("flights", flightSchema);
+const Flight = mongoose.model("flights", flightSchema);
 
 module.exports = Flight;
