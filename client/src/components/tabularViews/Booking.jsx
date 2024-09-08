@@ -23,8 +23,9 @@ export default function BookingTbl() {
   //
   useEffect(() => {
     const fetch = async () => {
-      const data = await getHandler("/bookings");
-      dispatch(setCurrentView({ view: "bookings", data: data.data.bookings }));
+      const data = await getHandler("/flight-bookings");
+      alert(JSON.stringify(data));
+      dispatch(setCurrentView({ view: "bookings", data: [] }));
     };
     fetch();
   }, []);

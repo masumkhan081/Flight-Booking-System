@@ -21,8 +21,7 @@ async function createBooking(req, res) {
 }
 async function getBookings(req, res) {
   // pagination check & logic
-
-  const result = await bookingService.getBookings();
+  const result = await bookingService.getBookings(req.query);
   if (result instanceof Error) {
     sendErrorResponse({ res, error: result, what: operableEntities.booking });
   } else {

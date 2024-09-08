@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { tblHeaderBooking,tblHeaderFlight,tblOptions } from "../../static-data/table";
+import { tblHeaderFlight, tblOptions } from "../../static-data/table";
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkSingle,
@@ -17,8 +17,9 @@ export default function FlightTbl() {
   //
   useEffect(() => {
     const fetch = async () => {
-      const data = await getHandler("/flights");
-      dispatch(setCurrentView({ view: "flights", data: data.data.bookings }));
+      const data = await getHandler("/flights").data?.data?.data?.data;
+      alert("data: " + JSON.stringify(data));
+      dispatch(setCurrentView({ view: "flights", data: data }));
     };
     fetch();
   }, []);

@@ -27,7 +27,7 @@ async function getFlights(query) {
 
     const fetchResult = await Flight.find(filterConditions)
       .sort(sortConditions)
-      .skip("v")
+      .skip(viewSkip)
       .limit(viewLimit);
 
     const total = await Flight.countDocuments(filterConditions);

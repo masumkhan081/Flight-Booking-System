@@ -5,7 +5,7 @@ const { getSearchAndPagination } = require("../utils/pagination");
 
 async function createBooking(data) {
   try {
-    console.log("data :::  "+JSON.stringify(data));
+    console.log("data :::  " + JSON.stringify(data));
     const addResult = await FlightBooking.create(data);
     return addResult;
   } catch (error) {
@@ -16,6 +16,7 @@ async function createBooking(data) {
 //
 async function getBookings(query) {
   try {
+    console.log("init ..");
     const {
       currentPage,
       viewLimit,
@@ -26,10 +27,14 @@ async function getBookings(query) {
       sortConditions,
     } = getSearchAndPagination({ query, what: operableEntities.booking });
 
+    console.log("before fr ..");
+
     const fetchResult = await FlightBooking.find(filterConditions)
       .sort(sortConditions)
-      .skip("v")
+      .skip(viewSkip)
       .limit(viewLimit);
+
+    console.log("fr: " + JSON.stringify(fetchResult));
 
     const total = await FlightBooking.countDocuments(filterConditions);
     return {
