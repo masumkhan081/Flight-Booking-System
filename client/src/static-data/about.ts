@@ -1,24 +1,16 @@
 const projectObjectives = [
-  "The primary objective is to implement a crud using express on back-end, mongodb atlas as data-tier. But as data of different kinds (drugs, gnerics etc) has interrelation, so implementation is not like a simple crud. Perhaps using PostgreSQL would've been more accurate to take advantage of RDBMS.",
-  "Making a case for using json-web-token was another objective where edit and delete operation would be under protected routes.",
+  "The primary objective is to implement a crud using express on back-end, mongodb atlas as data-tier where admin user creates/add flight with necessary info against which user can search flight by their query (destination, date, origin of the flight) and book the flight. ",
 ];
 const projectFeatures = [
-  "Add,Edit,Delete in Mongodb cloud using mongoose",
-  "Use of Json Web Token, Sign in before action like: delete,edit",
-  "Cheking existance bedore addition, correlation before deletion",
+  "Add,Edit,Delete flight (admin only, protected via auth middleware)",
+  "book a flight (normal user but after login)",
+  "search and view flight info (without authentication)",
 ];
 
 const usedTechAndTools = {
-   frontEnd: ["react", "tailwind"],
-   backEnd: [
-     "mongoose",
-     "nodemailer",
-     "passport",
-     "crypto",
-     "custom modal",
-     "custom hook",
-   ],
-   dataTier: ["mongodb with mongoose"],
- };
+  frontEnd: ["react", "redux", "tailwind", "custom shared-component"],
+  backEnd: ["mongoose", "nodemailer", "crypto"],
+  dataTier: ["mongodb with mongoose"],
+};
 
-export { projectObjectives, projectFeatures,usedTechAndTools };
+export { projectObjectives, projectFeatures, usedTechAndTools };

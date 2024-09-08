@@ -5,11 +5,14 @@ import Label from "../../common-ui/Label";
 import countryDials from "../../static-data/country_dial_info.json";
 //  icons
 import eye from "../../assets/icons/eye.svg";
-import { postHandler } from "../../axios/handler";
+import { postHandler } from "../../util/handler";
 import { useNavigate } from "react-router-dom";
+import { setOtp } from "../../redux/slices/User";
+import { useDispatch } from "react-redux";
 //
 export default function Signup() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   //
   const [fullName, setFullName] = useState(
     localStorage.getItem("fullName") || ""
@@ -24,11 +27,12 @@ export default function Signup() {
     email: "",
     password: "",
     contact: "",
+    common: "",
   };
   const [errors, setErrors] = useState(initErrorState);
 
   //
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     //   i need validation here: name must be included, password must be at least 6 char and both matches,
     // email must maintain pattern
@@ -39,23 +43,19 @@ export default function Signup() {
     } else if (password !== confirmPassword) {
       setErrors({ ...initErrorState, password: "Password doesn't match" });
     } else {
-      postHandler("/auth/register", {
+      const data = await postHandler("/auth/register", {
         fullName,
         email,
         password,
         phone,
-      })
-        .then((data) => {
-          if (data.data.nextPage == false) {
-            setErrors({ ...initErrorState, email: data.data.message });
-          }
-          if (data.data.nextPage) {
-            navigate("/auth/verify-otp");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      });
+      if (data.data.success) {
+        const { email, otp, token } = data?.data;
+        dispatch(setOtp({ token, otp, email }));
+        navigate("/auth/verify-otp");
+      } else {
+        setErrors({ ...errors, common: data.data.message });
+      }
     }
   }
   //
@@ -219,6 +219,8 @@ export default function Signup() {
           Sign Up
         </button>
       </div>
+
+      <p>{errors.common}</p>
     </form>
   );
 }

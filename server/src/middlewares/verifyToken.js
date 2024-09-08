@@ -7,23 +7,46 @@ const ApiError = require("../utils/api.error");
 //  accessRole can be undefined/empty string or "admin" or "salesman"
 function accessControl(accessRole) {
   return async (req, res, next) => {
-    const token = req.headers.authorization;
-    if (token) {
-      const isVerified = verifyToken({ token, secret: config.jwt_secret });
-      if (!isVerified) {
-        throw new ApiError(httpStatus.BAD_REQUEST, "Invalid token");
-      } else {
-        // Assign custom properties to the req object
-        req.user_id = isVerified?.user_id;
-        req.role = isVerified?.role;
-        if (req.role !== accessRole) {
-          throw new ApiError(httpStatus.FORBIDDEN, "Forbidden!");
+    try {
+      const token = req.cookies[config.tkn_header_key];
+
+      if (token) {
+        const isVerified = verifyToken({ token, secret: config.tkn_secret });
+
+        if (!isVerified) {
+          res.send({
+            statusCode: 401,
+            message: "Unauthorized !",
+            success: false,
+          });
         } else {
-          next();
+          // Assign custom properties to the req object
+          req.user_id = isVerified?.user_id;
+          req.role = isVerified?.role;
+
+          if (req.role !== accessRole) {
+            res.send({
+              statusCode: 401,
+              message: "Unauthorized ! e",
+              success: false,
+            });
+          } else {
+            next();
+          }
         }
+      } else {
+        res.send({
+          statusCode: 401,
+          message: "Unauthorized ! er",
+          success: false,
+        });
       }
-    } else {
-      throw new ApiError(httpStatus.BAD_REQUEST, "Token not found");
+    } catch (error) {
+      res.send({
+        statusCode: 401,
+        message: "Unauthorized ! err",
+        success: false,
+      });
     }
   };
 }

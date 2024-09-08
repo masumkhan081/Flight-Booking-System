@@ -2,6 +2,7 @@
 require("dotenv").config();
 
 const config = {
+  base_url:"http://localhost:3000",
   app_name: "Excel Flight Booking System",
   port: process.env.PORT || 3000,
   db_url:

@@ -7,6 +7,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Input from "../../common-ui/Input";
 import Button from "../../common-ui/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../redux/slices/User";
 //
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -14,16 +16,21 @@ export default function Login() {
   const location = useLocation();
   const status = location.state?.loginView;
   const navigate = useNavigate();
+  //
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     postHandler("/auth/login", { email, password })
       .then((data) => {
-        const useRole = data?.data?.data?.role;
-        if (useRole === "ADMIN") {
+        const { role, email, phone, fullName } = data?.data?.data;
+        dispatch(
+          setUser({ role, email, phone, fullName, authenticated: true })
+        );
+        if (role === "ADMIN") {
           navigate("/admin");
-        } else if (useRole === "USER") {
+        } else if (role === "USER") {
           navigate("/profile");
         }
       })

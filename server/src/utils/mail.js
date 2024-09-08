@@ -23,10 +23,13 @@ const sendOTPMail = ({ user, res, successMessage }) => {
     .then((result) => {
       result.accepted.includes(user.email)
         ? res.status(201).send({
+            success: true,
             message: successMessage,
+            otp: generatedOTP,
+            email:email,
             token: getOtpToken({ otp: generatedOTP, email: user.email }),
           })
-        : res.status(400).send({ message: "Error sendign otp to the mail" });
+        : res.status(400).send({ success: false,message: "Error sendign otp to the mail" });
     })
     .catch((err) => {
       // console.log(err);
@@ -73,7 +76,7 @@ const getVerificationMessage = (otp) =>
 
 function getResetLink(user) {
   return `<h4 style="color:blue;text-align:center;">Please click the link to reset your password: </h4><br><br>${
-    config.BASE_URL
+    config.base_url
   }/auth/recovery/${jwt.sign(
     {
       id: user.id,

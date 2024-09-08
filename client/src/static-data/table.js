@@ -1,28 +1,32 @@
-const tblOptions = ["flights", "bookings"];
+const tblOptions = ["flights", "bookings", "users"];
 
 const tblHeaderFlight = [
   "Flight Number",
   "Airline",
-  "Departure Airport",
-  "Arrival Airport",
-  "Departure Time",
-  "Arrival Time",
+  "Dept. APT",
+  "Arr. APT",
+  "Dept. Time",
+  "Arr. Time",
   "Duration",
-  "Aircraft",
+  "Total Seats",
   "Available Seats",
   "Price",
+  "Act.",
 ];
 
 const tblHeaderBooking = [
   "Flight",
-  "Passenger Name",
-  "Passenger Email",
-  "Passenger Phone",
-  "Seat Number",
-  "Booking Date",
+  "Psg Name",
+  "Psg Email",
+  "Psg Phone",
+  "Num Of Sts",
+  "Seats",
+  "Book Date",
   "Status",
-  "Total Price",
+  "Tot Price",
+  "Act.",
 ];
+const tblHeaderUser = ["Name", "Email", "Phone"];
 
 //
-export { tblHeaderBooking, tblHeaderFlight, tblOptions };
+export { tblHeaderBooking, tblHeaderFlight, tblOptions, tblHeaderUser };

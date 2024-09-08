@@ -29,7 +29,10 @@ async function getUsers(query) {
       sortOrder,
       filterConditions,
       sortConditions,
-    } = getSearchAndPagination({ query, what: operableEntities.supplier });
+    } = getSearchAndPagination({ query, what: operableEntities.user });
+
+    filterConditions.role = "USER";
+    filterConditions.isVerified = true;
 
     const fetchResult = await User.find(filterConditions)
       .sort(sortConditions)

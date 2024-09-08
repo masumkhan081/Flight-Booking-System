@@ -6,50 +6,22 @@ import Loader from "../components/Loader";
 import { useLocation, useNavigate, Navigate } from "react-router-dom";
 
 export default function ProtectedRoute({ children, pass }) {
-  //
-
- 
-const [loading , setLoading] = useState(false);
-   
   const dispatch = useDispatch();
   const role = useSelector((state) => state.user.role);
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
   const navigate = useNavigate();
-  const { state } = useLocation()
+  const { state } = useLocation();
 
   const authControl = {
-    user: ["profile"],
-    admin: ["dashboard"],
+    USER: ["profile"],
+    ADMIN: ["dashboard", "profile"],
+    NOUSER: ["flight-view"],
   };
-  
-  useEffect(() => {
-    if (user) {
-      if (!authControl.user.includes(accessTo)) {
-        navigate("/profile", { state: { authenticated: true } });
-      }
-    }
-    if (!user) {
-      if (!authControl.noUser.includes(accessTo)) {
-        navigate("/auth", { state: { loginView: true, afterLogin: location.pathname } });
-      }
-    }
 
-  }, [loading]);
-
-  if (loading) {
-    return <Loader />;
+  if (role && authControl[role].includes(pass)) {
+    return <>{children}</>;
   } else {
-    if (!user) {
-      if (authControl.noUser.includes(accessTo)) {
-        return <>{children}</>;
-      }
-      // else {
-      //   navigate("/auth", { state: { loginView: true, afterLogin: location.pathname } });
-      // }
-    } else {
-      if (authControl.user.includes(accessTo)) {
-        return <>{children}</>;
-      }
-    }
+    return <Loader />;
   }
 }

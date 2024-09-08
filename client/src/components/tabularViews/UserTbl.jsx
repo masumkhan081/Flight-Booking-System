@@ -1,31 +1,31 @@
 import React, { useEffect } from "react";
 import {
-  tblHeaderBooking,
   tblHeaderFlight,
+  tblHeaderUser,
   tblOptions,
 } from "../../static-data/table";
-
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkSingle,
   checkAll,
   setCurrentView,
 } from "../../redux/slices/adminView";
-
 import { getHandler } from "../../util/handler";
+import { getDateTime } from "../../util/time";
+import { FaInfo } from "react-icons/fa6";
+import { CiEdit } from "react-icons/ci";
 
-export default function BookingTbl() {
+export default function UserTbl() {
   //
   const dispatch = useDispatch();
-  const bookings = useSelector((state) => state.adminView.booking);
+  const users = useSelector((state) => state.adminView.users);
   const allChecked = useSelector((state) => state.adminView.allChecked);
   const currentView = useSelector((state) => state.adminView.currentView);
   //
   useEffect(() => {
     const fetch = async () => {
-      const data = await getHandler("/flight-bookings");
-      // alert(JSON.stringify(data));
-      dispatch(setCurrentView({ view: "bookings", data: [] }));
+      const data = await getHandler("/users");
+      dispatch(setCurrentView({ view: "users", data: data?.data?.data?.data }));
     };
     fetch();
   }, []);
@@ -42,7 +42,7 @@ export default function BookingTbl() {
                 onChange={(e) => dispatch(checkAll())}
               />
             </th>
-            {tblHeaderBooking.map((itm, ind) => {
+            {tblHeaderUser.map((itm, ind) => {
               return (
                 <th key={ind} className="th">
                   {itm}
@@ -53,8 +53,8 @@ export default function BookingTbl() {
         </thead>
 
         <tbody>
-          {bookings &&
-            bookings.map((item, ind) => {
+          {users &&
+            users.map((item, ind) => {
               return (
                 <tr key={ind} className="tr_tbody">
                   <td className="td">
@@ -65,16 +65,11 @@ export default function BookingTbl() {
                     />
                   </td>
                   {/* below padding may apply to all */}
-                  <td className="py-1.125">{ind}</td>
-                  <td className="py-1.125">{item.brandId}</td>
-                  <td className="py-1.125">{"item.generic.name"}</td>
-                  <td className="py-1.125">{item.available}</td>
-                  <td className="py-1.125">
-                    {item.strength + " " + "item.unit.name"}
-                  </td>
-                  <td className="py-1.125">{"item.formulation.name"}</td>
-                  <td className="py-1.125">{"item.manufacturer"}</td>
-                  {/* <TD2 txt={item.status} /> */}
+                  <td className="py-1.125">{item.fullName}</td>
+                  <td className="py-1.125">{item.email}</td>
+                  <td className="py-1.125">{item.phone}</td>
+
+                  {/* <td className="py-1.125">{item?.totalBooking}</td> */}
                 </tr>
               );
             })}

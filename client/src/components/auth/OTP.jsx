@@ -1,8 +1,14 @@
 import React from "react";
 import Label from "../../common-ui/Label";
 import { postHandler } from "../../util/handler";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function OTP() {
+  //
+  const dispatch = useDispatch();
+  const emailVerificationData = useSelector(
+    (state) => state.user.emailVerification
+  );
   const [otp_state, setOtp] = React.useState(["", "", "", ""]);
 
   function handleOTP(str, state_ind) {
@@ -24,16 +30,24 @@ export default function OTP() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    postHandler("/auth/verify-otp", { email, password })
-      .then((data) => {
-        console.log("result:  ", data, " :: ", data.status);
+    if (emailVerificationData.otp === otp_state.join("")) {
+      
+      postHandler("/auth/verify-email", {
+        otp: otp_state,
+        email: emailVerificationData.email,
+        token: emailVerificationData.token,
       })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+        .then((data) => {
+          alert("result:  ", data, " :: ", data.status);
+        })
+        .catch((err) => {
+          alert(JSON.stringify(err));
+        });
+    } else {
+    }
+  };
   return (
-    <>
+    <div>
       <p className="btn_auth_toggler">Email Verification</p>
       <form
         onSubmit={handleSubmit}
@@ -46,8 +60,9 @@ export default function OTP() {
             {otp_state.map((item, ind) => {
               return (
                 <input
+                  key={ind}
                   type="text"
-                  className=" py-1.125 px-1.25 rounded-full w-5.0 text-1.5/2 h-3.0 text-center "
+                  className="border py-1.125 px-1.25 rounded-full w-5.0 text-1.5/2 h-3.0 text-center "
                   value={otp_state[ind]}
                   onChange={(e) => {
                     console.log(e.target.value);
@@ -63,6 +78,6 @@ export default function OTP() {
           Verify Account
         </button>
       </form>
-    </>
+    </div>
   );
 }

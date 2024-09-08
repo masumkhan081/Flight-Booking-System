@@ -3,12 +3,11 @@
 
 const { defaultViewLimit, map_searchables } = require("../config/constants");
 
-function getSearchAndPagination({ query, what }) { 
-
-  const { search, page, limit, search_by, sort_by, sort_order } = query; 
+function getSearchAndPagination({ query, what }) {
+  const { search, page, limit, search_by, sort_by, sort_order } = query;
   // sorting data with a particular field and order or by taking prefined defaults in this regard
   const sortBy = sort_by || "createdAt";
-  const sortOrder = sort_order || "desc"; 
+  const sortOrder = sort_order || "desc";
 
   // page-number - pagination field
   const currentPage = page === "" ? 1 : page === undefined ? 1 : page;
@@ -20,24 +19,22 @@ function getSearchAndPagination({ query, what }) {
       : limit === undefined
       ? defaultViewLimit
       : limit;
- 
 
   // skip  - pagination field
   const viewSkip = viewLimit * (currentPage - 1);
- 
 
   // what fild to be searched on
   const searchBy =
-    search_by === undefined ? "whole" : search_by === "" ? "whole" : search_by; 
+    search_by === undefined ? "whole" : search_by === "" ? "whole" : search_by;
 
   // what to be searched by
   const searchTerm =
-    search === "" ? search : search === undefined ? "" : search; 
+    search === "" ? search : search === undefined ? "" : search;
 
   let searchConditions = [];
   let filterConditions = {};
   let sortConditions = { [sortBy]: sortOrder };
-  let filterData; 
+  let filterData;
 
   for (let i = 0; i < map_searchables[what]?.length; i++) {
     filterData = query[map_searchables[what][i]];
@@ -54,7 +51,7 @@ function getSearchAndPagination({ query, what }) {
         });
       }
     }
-  } 
+  }
 
   searchConditions.length > 0
     ? (filterConditions["$or"] = searchConditions)

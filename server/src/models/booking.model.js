@@ -8,21 +8,13 @@ const flightBookingSchema = new Schema(
       ref: "flights",
       required: true,
     },
-    passengerName: {
-      type: String,
+    passenger: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
       required: true,
     },
-    passengerEmail: {
-      type: String,
-      required: true,
-      match: [/.+@.+\..+/, "Invalid email format"],
-    },
-    passengerPhone: {
-      type: String,
-      required: true,
-    },
-    seatNumber: {
-      type: String,
+    seats: {
+      type: [String],
       required: true,
     },
     bookingDate: {

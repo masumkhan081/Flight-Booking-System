@@ -1,6 +1,7 @@
 const flightService = require("../services/flight.service");
 const httpStatus = require("http-status");
 const { success_msg } = require("../utils/responseHandler");
+const config = require("../config/index");
 
 const {
   sendCreateResponse,

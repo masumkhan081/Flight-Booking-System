@@ -10,6 +10,7 @@ const { operableEntities } = require("../../config/constants");
 const jwt = require("jsonwebtoken");
 const { sendErrorResponse } = require("../../utils/responseHandler");
 const crypto = require("crypto-js");
+const { verifyToken } = require("../../utils/tokenisation");
 
 async function register({ res, fullName, email, password, phone }) {
   try {
@@ -32,7 +33,7 @@ async function register({ res, fullName, email, password, phone }) {
 
     // return savedUser;
   } catch (error) {
-    sendErrorResponse({ res, error, what: "what" });
+    sendErrorResponse({ res, error, what: operableEntities.user });
   }
 }
 
@@ -69,7 +70,6 @@ async function login({ res, email, password }) {
 
     if (user) {
       const bool = await bcrypt.compare(password, user.password);
-      console.log("bool: " + JSON.stringify(bool));
 
       if (bool) {
         if (user.isVerified) {
@@ -93,6 +93,7 @@ async function login({ res, email, password }) {
                 email: user.email,
                 phone: user.phone,
                 role: user.role,
+                fullName: user.fullName,
               },
             });
         }
@@ -156,43 +157,70 @@ async function getUsers({
     data: fetchResult,
   };
 }
-//
-async function updateUser({ id, data }) {
+
+async function resetPw({ res, token }) {
   try {
-    const editResult = await userModel.findByIdAndUpdate(id, data, {
-      new: true,
+    const { id, expireAt, email } = verifyToken({
+      token,
+      secret: config.tkn_secret,
     });
-    return editResult;
+
+    if (new Date().getTime() > expireAt) {
+      res.status(400).send({
+        status: 400,
+        success: false,
+        message: "Reset link expired",
+      });
+    } else {
+      const user = await userModel.findOne({ email: email, id: id });
+      res.send({
+        status: 200,
+        success: true,
+        message: "Your can update your password now",
+        data: user,
+      });
+    }
   } catch (error) {
-    return error;
+    res.send({
+      status: 400,
+      success: false,
+      message: "Error processing reset link",
+    });
   }
 }
-//
-async function deleteUser(id) {
+
+async function updatePw({ email, password, confirmPassword, res }) {
   try {
-    const deleteResult = await userModel.findByIdAndDelete(id);
-    return deleteResult;
+    if (password === confirmPassword) {
+      const salt = await bcrypt.genSalt(10); // 10 is the number of salt rounds
+
+      // Hash the password with the salt
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      const updatedUser = await userModel.findOneAndUpdate(
+        { email },
+        { password: hashedPassword }
+      );
+      res.status(200).send({
+        status: 200,
+        success: true,
+        message: "Password updated successfully",
+      });
+    } else {
+      res.status(400).send({
+        status: 400,
+        success: false,
+        message: "Password doesn't match",
+      });
+    }
   } catch (error) {
-    return error;
+    res.status(400).send({
+      status: 400,
+      success: false,
+      message: "Error updating password",
+    });
   }
-}
-
-async function sendPassResetMail({ email, res }) {
-  const result = await sendResetMail({ email, res });
-}
-
-async function resetPw(req, res) {
-  const token = req.params.token;
-  // const result = await userService.resetPw(token);
-}
-
-async function updatePw(req, res) {
   // const result = await userService.updatePw(req.body);
-  if (result instanceof Error) {
-    sendErrorResponse({ res, error: result, what: operableEntities.address });
-  } else {
-    sendFetchResponse({ res, data: result, what: operableEntities.address });
-  }
 }
 async function sendOTPToEmail(req, res) {
   // const { email } = req.body;
@@ -207,8 +235,6 @@ async function sendOTPToEmail(req, res) {
 
 module.exports = {
   register,
-  updateUser,
-  deleteUser,
   getUsers,
   login,
   sendOTPToEmail,

@@ -12,19 +12,28 @@ import { RiLogoutCircleRLine } from "react-icons/ri";
 import { AiFillHome, AiOutlineClose } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdFlightTakeoff } from "react-icons/md";
+import Cookies from "js-cookie";
+import toast, { Toaster } from "react-hot-toast";
+import { getHandler } from "../../util/handler";
 
 export default function NavTop() {
+  //
   const [menuFolded, setMenuFolded] = useState(true);
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.user.authenticated);
-
+  const notify = (msg) => toast(msg);
+  //
   function handleLogout() {
-    toAuthForm(false);
-    setMenuFolded(true);
-    Cookies.remove(tokenHeader);
+    Cookies.remove("authorization");
+
     getHandler("/auth/logout")
-      .then((data) => {})
-      .catch((err) => {});
+      .then((data) => {
+        notify("Dick Pulled Out Succesfully");
+        navigate("/auth/login");
+      })
+      .catch((err) => {
+        alert("logout: err: " + JSON.stringify(err));
+      });
   }
 
   const styLogic = () =>
@@ -76,7 +85,7 @@ export default function NavTop() {
           <Button
             onClick={() => {
               setMenuFolded(true);
-              navigate("/auth/profile");
+              navigate("/profile");
             }}
             txt="Profile"
             icon={<BiLogInCircle className="nav_icn" />}

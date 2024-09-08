@@ -12,18 +12,22 @@ const flightSchema = new Schema(
       type: String,
       required: true,
     },
+    // origin
     departureAirport: {
       type: String,
       required: true,
     },
+    // destination
     arrivalAirport: {
       type: String,
       required: true,
     },
+    // flight-start date-time
     departureTime: {
       type: Date,
       required: true,
     },
+    // flight-end date-time
     arrivalTime: {
       type: Date,
       required: true,
@@ -32,8 +36,8 @@ const flightSchema = new Schema(
       type: Number, // Duration in minutes
       required: true,
     },
-    aircraft: {
-      type: String,
+    totalSeats: {
+      type: Number,
       required: true,
     },
     availableSeats: {
@@ -54,3 +58,5 @@ const flightSchema = new Schema(
 const Flight = mongoose.model("flights", flightSchema);
 
 module.exports = Flight;
+
+

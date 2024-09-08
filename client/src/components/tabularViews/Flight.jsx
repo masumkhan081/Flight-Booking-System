@@ -7,6 +7,9 @@ import {
   setCurrentView,
 } from "../../redux/slices/adminView";
 import { getHandler } from "../../util/handler";
+import { getDateTime } from "../../util/time";
+import { FaInfo } from "react-icons/fa6";
+import { MdDelete, MdEdit } from "react-icons/md";
 
 export default function FlightTbl() {
   //
@@ -17,9 +20,11 @@ export default function FlightTbl() {
   //
   useEffect(() => {
     const fetch = async () => {
-      const data = await getHandler("/flights").data?.data?.data?.data;
-      alert("data: " + JSON.stringify(data));
-      dispatch(setCurrentView({ view: "flights", data: data }));
+      const data = await getHandler("/flights");
+      // alert("data: " + JSON.stringify());
+      dispatch(
+        setCurrentView({ view: "flights", data: data?.data?.data?.data })
+      );
     };
     fetch();
   }, []);
@@ -59,16 +64,29 @@ export default function FlightTbl() {
                     />
                   </td>
                   {/* below padding may apply to all */}
-                  <td className="py-1.125">{ind}</td>
-                  <td className="py-1.125">{item.brandId}</td>
-                  <td className="py-1.125">{"item.generic.name"}</td>
-                  <td className="py-1.125">{item.available}</td>
+                  <td className="py-1.125">{item.flightNumber}</td>
+                  <td className="py-1.125">{item.airline}</td>
+                  <td className="py-1.125">{item.departureAirport}</td>
+                  <td className="py-1.125">{item.arrivalAirport}</td>
                   <td className="py-1.125">
-                    {item.strength + " " + "item.unit.name"}
+                    {getDateTime(item.departureTime)}
                   </td>
-                  <td className="py-1.125">{"item.formulation.name"}</td>
-                  <td className="py-1.125">{"item.manufacturer"}</td>
-                  {/* <TD2 txt={item.status} /> */}
+                  <td className="py-1.125">{getDateTime(item.arrivalTime)}</td>
+                  <td className="py-1.125">{item.duration + " mins."}</td>
+                  <td className="py-1.125">{item.totalSeats}</td>
+                  <td className="py-1.125">{item.availableSeats}</td>
+                  <td className="py-1.125">{item.price}</td>
+                  <td className="py-1.125 flex gap-2 items-center justify-center">
+                    <button onClick={() => alert("incomplete !")}>
+                      <FaInfo className="w-4 h-4 text-" />
+                    </button>
+                    <button onClick={() => alert("incomplete !")}>
+                      <MdEdit className="w-4 h-5 text-green-700" />
+                    </button>
+                    <button onClick={() => alert("incomplete !")}>
+                      <MdDelete className="w-4 h-4 text-red-600" />
+                    </button>
+                  </td>
                 </tr>
               );
             })}

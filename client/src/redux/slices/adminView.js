@@ -11,8 +11,9 @@ export const adminViewSlice = createSlice({
     allChecked: false,
     flights: [],
     bookings: [],
+    users: [],
   },
-  
+
   reducers: {
     setCurrentView: (state, action) => {
       const { view, data } = action.payload;

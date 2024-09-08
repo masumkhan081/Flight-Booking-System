@@ -11,6 +11,7 @@ import Login from "../components/auth/Login.jsx";
 
 import SignUp from "../components/auth/SignUp.jsx";
 import Dashboard from "../pages/Dashboard.jsx";
+import FlightView from "../pages/FlightView.jsx";
 //
 export const routes = createBrowserRouter([
   {
@@ -23,11 +24,23 @@ export const routes = createBrowserRouter([
       },
       {
         path: "/admin",
-        element: <Dashboard />,
+        element: (
+          <ProtectedRoute pass={"dashboard"}>
+            <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/about",
+        element: <Landing />,
       },
       {
         path: "",
-        element: <Landing />,
+        element: (
+          // <ProtectedRoute pass={"flight-view"}>
+          <FlightView />
+          // </ProtectedRoute>
+        ),
       },
       {
         path: "auth/",
